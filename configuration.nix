@@ -26,11 +26,11 @@
     trackpad.Clicking = true;              # tap to click
   };
   nix-homebrew = {
-    enable = true;
+    enable = false;
     inherit user;
   };
   homebrew = {
-    enable = false;
+    enable = true;
     # Change back to zap when you have standardized packages
     onActivation.cleanup = "none";  # remove anything not listed here
     onActivation.autoUpdate = false;
