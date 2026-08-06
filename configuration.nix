@@ -30,9 +30,10 @@
     inherit user;
   };
   homebrew = {
-    enable = true;
-    onActivation.cleanup = "zap";  # remove anything not listed here
-    onActivation.autoUpdate = true;
+    enable = false;
+    # Change back to zap when you have standardized packages
+    onActivation.cleanup = "none";  # remove anything not listed here
+    onActivation.autoUpdate = false;
     onActivation.extraFlags = [ "--force" ];
     brews = [
       "herdr"
