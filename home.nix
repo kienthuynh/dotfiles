@@ -22,11 +22,23 @@ in
     jq        # json on the command line
     lazygit
     neovim
+    git
+    gnupg     # commit signing
+    # gnu tools under g-prefixes (gtimeout, gshuf), so BSD ls/date stay intact
+    coreutils-prefixed
+    # c/c++ toolchain
+    cmake
+    automake  # autotools, for ./configure-style third-party sources
+    libtool
     # the font everything renders in
     nerd-fonts.hack
   ];
   fonts.fontconfig.enable = true;
   home.sessionVariables.EDITOR = "nvim";
+
+  # Versioned Homebrew formulae are keg-only, so psql/pg_dump are never linked
+  # into /opt/homebrew/bin. `brew link` works but gets undone; declare it instead.
+  home.sessionPath = [ "/opt/homebrew/opt/postgresql@17/bin" ];
 
   programs.zsh = {
     enable = true;

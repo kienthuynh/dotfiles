@@ -35,8 +35,17 @@
     onActivation.cleanup = "none";  # remove anything not listed here
     onActivation.autoUpdate = false;
     onActivation.extraFlags = [ "--force" ];
+    # Only things Homebrew genuinely does better than nixpkgs live here.
     brews = [
-      "herdr"
+      "herdr"          # nixpkgs lags behind (0.7.5 vs 0.8.0)
+      "postgresql@17"  # brew services is the simplest launchd story on macOS
+      "rbenv"          # exact Ruby pins per .ruby-version; nixpkgs has no 3.2.x
+      "ruby-build"     # not packaged in nixpkgs; rbenv needs it to build Rubies
+      # rbenv compiles Rubies against Homebrew libs, but Homebrew cannot see that
+      # dependency. Undeclared, `brew autoremove` (and `cleanup = "zap"`) delete
+      # gmp and every rbenv Ruby dies with a dyld "Library not loaded" error.
+      # ruby-build already pulls in openssl@3/readline/libyaml; gmp it does not.
+      "gmp"
     ];
     casks = [
       "wezterm"

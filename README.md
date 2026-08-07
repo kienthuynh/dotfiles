@@ -129,6 +129,8 @@ If you don't use it, just remove it from `brews` in your copy.
 - `home.nix` - user-level config: shell, packages, prompt, and the symlinks described below.
 - `rebuild.sh` - re-applies the config after the first switch.
   Run this every time you make a change.
+- `MAINTENANCE.md` - the periodic updates this config does *not* do for you
+  (Nix inputs, Homebrew, Neovim plugins, conda, garbage collection).
 - `home/` - the actual config files that get symlinked into place; the sections below explain the shared symlink model and Pi's narrower selective setup.
 
 ## How the symlinks work
