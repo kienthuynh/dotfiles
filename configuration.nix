@@ -31,8 +31,10 @@
   };
   homebrew = {
     enable = true;
-    # Change back to zap when you have standardized packages
-    onActivation.cleanup = "none";  # remove anything not listed here
+    # Enforcing, not merely additive: anything installed but not listed below is
+    # removed on every switch. Forces ad-hoc `brew install`s to be declared here
+    # instead of silently accumulating. See the Homebrew warning in README.md.
+    onActivation.cleanup = "zap";
     onActivation.autoUpdate = false;
     onActivation.extraFlags = [ "--force" ];
     # Only things Homebrew genuinely does better than nixpkgs live here.

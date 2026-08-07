@@ -38,12 +38,21 @@ in
 
   # Versioned Homebrew formulae are keg-only, so psql/pg_dump are never linked
   # into /opt/homebrew/bin. `brew link` works but gets undone; declare it instead.
-  home.sessionPath = [ "/opt/homebrew/opt/postgresql@17/bin" ];
+  home.sessionPath = [
+    "/opt/homebrew/opt/postgresql@17/bin"
+    "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+  ];
 
   programs.zsh = {
     enable = true;
     autosuggestion.enable = true;      # ghost text from history
     syntaxHighlighting.enable = true;  # commands turn green when valid
+    # Written to .zprofile, which runs before .zshrc. brew shellenv has to come
+    # first: rbenv lives in /opt/homebrew/bin and would not be found otherwise.
+    profileExtra = ''
+      eval "$(/opt/homebrew/bin/brew shellenv)"
+      eval "$(rbenv init - --no-rehash zsh)"
+    '';
     initContent = ''
       bindkey '^f' autosuggest-accept
 
@@ -70,6 +79,34 @@ in
     };
   };
 
+  programs.git = {
+    enable = true;
+    settings = {
+      user = {
+        name = "Kien Huynh";
+        email = "143785443+kienthuynh@users.noreply.github.com";
+      };
+      init.defaultBranch = "main";
+      pull.rebase = false;
+      # Was `vim` in the hand-written ~/.gitconfig, which silently overrode
+      # $EDITOR and opened vim for commit messages.
+      core.editor = "nvim";
+    };
+    # Replaces both the old ~/.gitignore_global and ~/.config/git/ignore.
+    ignores = [
+      ".DS_Store"
+      "**/.claude/settings.local.json"
+    ];
+  };
+
+  # Conda owns its own state; this is the one bit worth pinning. Base stays
+  # unactivated so no "(base)" prefix appears in projects that do not need it.
+  home.file.".condarc".text = ''
+    channels:
+      - defaults
+    auto_activate_base: false
+  '';
+
   programs.starship = {
     enable = true;
     settings = {
@@ -92,16 +129,6 @@ in
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.config/herdr";
   home.file.".claude/settings.json".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.claude/settings.json";
-
-  # Keep Pi's credential and runtime state local by linking only authored files and directories.
-  # home.file.".pi/agent/themes".source =
-  #   config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.pi/agent/themes";
-  # home.file.".pi/agent/extensions".source =
-  #   config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.pi/agent/extensions";
-  # home.file.".pi/agent/models.json".source =
-  #   config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.pi/agent/models.json";
-  # home.file.".pi/agent/settings.json".source =
-  #   config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.pi/agent/settings.json";
 
   home.file.".claude/CLAUDE.md".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/AGENTS.md";
