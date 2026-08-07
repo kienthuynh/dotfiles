@@ -5,6 +5,12 @@ let
 in
 
 {
+  # Home Manager's manpage builder generates options.json with an uncontexted
+  # nixpkgs store path, which Nix warns about on every switch.
+  # See https://github.com/nix-community/home-manager/issues/7935
+  # Costs `man home-configuration.nix`; the same docs are online.
+  manual.manpages.enable = false;
+
   home.username = user;
   home.homeDirectory = "/Users/${user}";
   home.stateVersion = "24.11";
@@ -28,6 +34,20 @@ in
     syntaxHighlighting.enable = true;  # commands turn green when valid
     initContent = ''
       bindkey '^f' autosuggest-accept
+
+      # Conda is the single source of truth for Python on this machine.
+      # Kept here rather than in ~/.zshrc, which home-manager regenerates.
+      __conda_setup="$('/opt/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+      if [ $? -eq 0 ]; then
+          eval "$__conda_setup"
+      else
+          if [ -f "/opt/anaconda3/etc/profile.d/conda.sh" ]; then
+              . "/opt/anaconda3/etc/profile.d/conda.sh"
+          else
+              export PATH="/opt/anaconda3/bin:$PATH"
+          fi
+      fi
+      unset __conda_setup
     '';
     shellAliases = {
       ".." = "cd ..";
