@@ -107,6 +107,16 @@ in
     auto_activate_base: false
   '';
 
+  # Per-project toolchains. Entering a directory with a .envrc loads that
+  # project's flake devShell, so a compiler or language server is declared by
+  # the project that needs it instead of being installed globally here.
+  # nix-direnv caches the shell and pins it with a GC root, so re-entering a
+  # directory is instant and `nix store gc` cannot collect it out from under you.
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
+
   programs.starship = {
     enable = true;
     settings = {

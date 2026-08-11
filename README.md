@@ -19,7 +19,8 @@ Running the switch builds:
 - Homebrew apps (casks and CLI tools)
 - Nix user packages (ripgrep, fd, fzf, jq, lazygit, Neovim, Hack Nerd Font)
 - Shell (zsh, aliases, starship prompt)
-- Editor (Neovim config with the rose-pine moon theme)
+- Per-project dev environments (direnv + nix-direnv, auto-loading a project's flake devShell)
+- Editor (Neovim config with the rose-pine moon theme and clangd LSP for C/C++)
 - Terminal (WezTerm config with the rose-pine moon theme and dimmed unfocused windows)
 - Agent configs (Claude, Codex, opencode all share one AGENTS.md)
 

@@ -98,6 +98,10 @@ roll back to an earlier generation.
 Check current size with `du -sh /nix/store` and count generations with
 `ls /nix/var/nix/profiles/`.
 
+Projects using direnv keep a `.direnv/` directory holding a GC root, so a
+devShell you still use is never collected. Deleting a project's `.direnv/` (or
+the project itself) releases that toolchain at the next `nix store gc`.
+
 ## Things that update themselves
 
 VS Code, Chrome, Slack, Spotify, Discord, and Docker all self-update. No action
@@ -114,3 +118,6 @@ needed, and declaring them as casks does not change that.
   `nix eval .#darwinConfigurations.mac.config...`.
 - **Editing `~/.zshrc` is pointless.** Home Manager regenerates it from
   `programs.zsh` in `home.nix` on every switch. Edit `home.nix`.
+- **A project flake pins itself, not this repo.** Each project's `flake.lock`
+  is separate, so `nix flake update` here does not move a project's toolchain.
+  Run it inside the project to update that one.
