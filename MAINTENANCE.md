@@ -98,9 +98,8 @@ roll back to an earlier generation.
 Check current size with `du -sh /nix/store` and count generations with
 `ls /nix/var/nix/profiles/`.
 
-Projects using direnv keep a `.direnv/` directory holding a GC root, so a
-devShell you still use is never collected. Deleting a project's `.direnv/` (or
-the project itself) releases that toolchain at the next `nix store gc`.
+A direnv project's `.direnv/` directory protects that project's toolchain from
+being collected. Delete `.direnv/` (or the project) to release it.
 
 ## Things that update themselves
 
