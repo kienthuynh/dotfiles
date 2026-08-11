@@ -16,6 +16,11 @@ vim.lsp.config('clangd', {
 })
 vim.lsp.enable('clangd')
 
+-- menuone: show the menu even for a single match, instead of inserting it outright.
+-- noselect: highlight nothing by default, so typing is never overwritten and <CR>
+-- stays a newline. Pick a suggestion deliberately with <C-n>/<C-p>.
+vim.o.completeopt = 'menu,menuone,noselect,popup'
+
 -- Turn on completion whenever a language server attaches.
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)

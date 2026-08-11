@@ -119,6 +119,8 @@ If you don't use it, just remove it from `brews` in your copy.
   Run this every time you make a change.
 - `MAINTENANCE.md` - the periodic updates this config does *not* do for you
   (Nix inputs, Homebrew, Neovim plugins, conda, garbage collection).
+- `CPP.md` - how to start a C++ project that works with the Neovim + clangd setup
+  installed here: the files to create, what each one does, and how to build.
 - `home/` - the actual config files that get symlinked into place; the section below explains the symlink model.
 
 ## How the symlinks work
